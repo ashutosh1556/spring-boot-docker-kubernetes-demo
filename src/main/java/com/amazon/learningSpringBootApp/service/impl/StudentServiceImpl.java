@@ -20,7 +20,12 @@ import com.amazon.learningSpringBootApp.repository.StudentRepository;
 import com.amazon.learningSpringBootApp.service.StudentService;
 
 /**
- *
+ * Implementation of StudentService interface.
+ * 
+ * Handles business logic for student operations including:
+ * - CRUD operations
+ * - Entity-DTO conversions using ModelMapper
+ * - Relationship management (Address, ContactInfo, Enrollments)
  */
 @Service
 @RequiredArgsConstructor
@@ -51,6 +56,7 @@ class StudentServiceImpl implements StudentService {
         student.setEmail(addNewStudentDTO.getEmail());
         student.setAge(addNewStudentDTO.getAge());
 
+        // Handle address with coordinates
         if (addNewStudentDTO.getAddress() != null) {
             AddressEntity address = modelMapper.map(addNewStudentDTO.getAddress(), AddressEntity.class);
             address.setStudent(student);
@@ -63,12 +69,14 @@ class StudentServiceImpl implements StudentService {
             }
         }
 
+        // Handle contact info
         if (addNewStudentDTO.getContactInfo() != null) {
             ContactInfoEntity contactInfo = modelMapper.map(addNewStudentDTO.getContactInfo(), ContactInfoEntity.class);
             contactInfo.setStudent(student);
             student.setContactInfo(contactInfo);
         }
 
+        // Handle enrollments
         if (addNewStudentDTO.getEnrollments() != null && !addNewStudentDTO.getEnrollments().isEmpty()) {
             addNewStudentDTO.getEnrollments().forEach(enrollmentDTO -> {
                 EnrollmentEntity enrollment = modelMapper.map(enrollmentDTO, EnrollmentEntity.class);
@@ -95,6 +103,7 @@ class StudentServiceImpl implements StudentService {
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Student not found with given id"));
 
+        // Apply partial updates to simple fields only
         updates.forEach((key, value) -> {
             switch (key) {
                 case "name" -> student.setName((String) value);
@@ -120,6 +129,7 @@ class StudentServiceImpl implements StudentService {
         student.setEmail(addNewStudentRequestDTO.getEmail());
         student.setAge(addNewStudentRequestDTO.getAge());
 
+        // Update or create address
         if (addNewStudentRequestDTO.getAddress() != null) {
             if (student.getAddress() == null) {
                 AddressEntity address = modelMapper.map(addNewStudentRequestDTO.getAddress(), AddressEntity.class);
@@ -130,6 +140,7 @@ class StudentServiceImpl implements StudentService {
             }
         }
 
+        // Update or create contact info
         if (addNewStudentRequestDTO.getContactInfo() != null) {
             if (student.getContactInfo() == null) {
                 ContactInfoEntity contactInfo = modelMapper.map(addNewStudentRequestDTO.getContactInfo(), ContactInfoEntity.class);
@@ -140,6 +151,7 @@ class StudentServiceImpl implements StudentService {
             }
         }
 
+        // Replace enrollments
         if (addNewStudentRequestDTO.getEnrollments() != null) {
             student.getEnrollments().clear();
             addNewStudentRequestDTO.getEnrollments().forEach(enrollmentDTO -> {

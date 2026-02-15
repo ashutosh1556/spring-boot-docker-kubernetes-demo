@@ -7,12 +7,27 @@ import org.springframework.stereotype.Component;
 import com.amazon.learningSpringBootApp.entity.*;
 import com.amazon.learningSpringBootApp.repository.StudentRepository;
 
+/**
+ * Data loader component that initializes the database with sample student data.
+ * 
+ * Runs automatically on application startup and populates the database
+ * with 12 sample students if the database is empty.
+ * 
+ * This is useful for:
+ * - Development and testing
+ * - Demonstrating the application functionality
+ * - Learning purposes
+ */
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
 
     private final StudentRepository studentRepository;
 
+    /**
+     * Executes on application startup.
+     * Loads sample data if database is empty.
+     */
     @Override
     public void run(String... args) {
         if (studentRepository.count() == 0) {
@@ -31,6 +46,9 @@ public class DataLoader implements CommandLineRunner {
         }
     }
     
+    /**
+     * Helper method to create a complete student entity with all relationships.
+     */
     private StudentEntity createStudent(String name, String email, Integer age, String street, String city, String state, String zip, String country, Double lat, Double lon, String phone1, String phone2, String emergency, String emergencyPhone, String program, String major, LocalDate enrollDate, String status, Double gpa) {
         StudentEntity student = new StudentEntity();
         student.setName(name);

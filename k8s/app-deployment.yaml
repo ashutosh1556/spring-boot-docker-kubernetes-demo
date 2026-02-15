@@ -1,10 +1,11 @@
+# Kubernetes Deployment for Spring Boot Application
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-app
   namespace: spring-demo
 spec:
-  replicas: 2
+  replicas: 2  # Run 2 instances for high availability
   selector:
     matchLabels:
       app: spring-app
@@ -15,25 +16,29 @@ spec:
     spec:
       containers:
       - name: spring-app
-        image: spring-demo:local
-        imagePullPolicy: Never
+        image: spring-demo:local  # Use locally built image
+        imagePullPolicy: Never    # Don't pull from registry
         ports:
         - containerPort: 8080
+        # Load environment variables from ConfigMap
         envFrom:
         - configMapRef:
             name: app-config
+        # Load sensitive data from Secret
         env:
         - name: SPRING_DATASOURCE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_PASSWORD
+        # Liveness probe: checks if app is running
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
             port: 8080
           initialDelaySeconds: 30
           periodSeconds: 10
+        # Readiness probe: checks if app is ready to serve traffic
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
