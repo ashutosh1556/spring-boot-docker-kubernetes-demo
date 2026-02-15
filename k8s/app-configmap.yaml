@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: spring-demo
+data:
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studentsDB
+  SPRING_DATASOURCE_USERNAME: ashutver
