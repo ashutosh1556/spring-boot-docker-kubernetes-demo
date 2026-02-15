@@ -11,7 +11,7 @@ This guide explains how to run your Spring Boot application and PostgreSQL datab
   - Internal port: 5432
   - Mapped to host: 5432
   - Database name: studentsDB
-  - Username: ashutver
+  - Username: dbuser
 
 - **spring-boot-app**: Spring Boot application container
   - Internal port: 8080
@@ -66,7 +66,7 @@ docker run -d \
   --name postgres-db \
   --network spring-postgres-network \
   -e POSTGRES_DB=studentsDB \
-  -e POSTGRES_USER=ashutver \
+  -e POSTGRES_USER=dbuser \
   -e POSTGRES_PASSWORD=postgres123 \
   -p 5432:5432 \
   postgres:15
@@ -78,10 +78,10 @@ docker run -d \
   --name spring-boot-app \
   --network spring-postgres-network \
   -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/studentsDB \
-  -e SPRING_DATASOURCE_USERNAME=ashutver \
+  -e SPRING_DATASOURCE_USERNAME=dbuser \
   -e SPRING_DATASOURCE_PASSWORD=postgres123 \
   -p 8080:8080 \
-  ashutver/spring-demo:v3
+  your-username/spring-demo:v3
 ```
 
 ## Access Points
@@ -109,7 +109,7 @@ docker logs -f postgres-db
 
 ### Access PostgreSQL shell:
 ```bash
-docker exec -it postgres-db psql -U ashutver -d studentsDB
+docker exec -it postgres-db psql -U dbuser -d studentsDB
 ```
 
 ### Access Spring Boot container bash:

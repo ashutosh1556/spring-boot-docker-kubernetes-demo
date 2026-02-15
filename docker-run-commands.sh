@@ -10,7 +10,7 @@ docker run -d \
   --name postgres-db \
   --network spring-postgres-network \
   -e POSTGRES_DB=studentsDB \
-  -e POSTGRES_USER=ashutver \
+  -e POSTGRES_USER=dbuser \
   -e POSTGRES_PASSWORD=postgres123 \
   -p 5432:5432 \
   -v postgres-data:/var/lib/postgresql/data \
@@ -24,10 +24,10 @@ docker run -d \
   --name spring-boot-app \
   --network spring-postgres-network \
   -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/studentsDB \
-  -e SPRING_DATASOURCE_USERNAME=ashutver \
+  -e SPRING_DATASOURCE_USERNAME=dbuser \
   -e SPRING_DATASOURCE_PASSWORD=postgres123 \
   -p 8080:8080 \
-  ashutver/spring-demo:v3
+  your-username/spring-demo:v3
 
 echo "Containers started successfully!"
 echo "PostgreSQL is accessible at localhost:5432"

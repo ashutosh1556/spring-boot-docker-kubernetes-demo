@@ -60,7 +60,7 @@ cd learningSpringBootApp
 docker run -d \
   --name postgres-local \
   -e POSTGRES_DB=studentsDB \
-  -e POSTGRES_USER=ashutver \
+  -e POSTGRES_USER=dbuser \
   -e POSTGRES_PASSWORD=postgres123 \
   -p 5432:5432 \
   postgres:15
@@ -79,7 +79,7 @@ Access the application at: http://localhost:8080
 ./mvnw clean package -DskipTests
 
 # Build Docker image
-docker build -t ashutver/spring-demo:v3 .
+docker build -t your-username/spring-demo:v3 .
 
 # Start all services
 docker-compose up -d
@@ -322,7 +322,7 @@ Key configurations in `application.properties`:
 ```properties
 # Database Configuration
 spring.datasource.url=jdbc:postgresql://localhost:5432/studentsDB
-spring.datasource.username=ashutver
+spring.datasource.username=dbuser
 spring.datasource.password=
 
 # JPA/Hibernate
@@ -342,7 +342,7 @@ Override properties using environment variables:
 
 ```bash
 SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/studentsDB
-SPRING_DATASOURCE_USERNAME=ashutver
+SPRING_DATASOURCE_USERNAME=dbuser
 SPRING_DATASOURCE_PASSWORD=postgres123
 ```
 
@@ -363,7 +363,7 @@ SPRING_DATASOURCE_PASSWORD=postgres123
 
 ### Build Image
 ```bash
-docker build -t ashutver/spring-demo:v3 .
+docker build -t your-username/spring-demo:v3 .
 ```
 
 ### Run Container
@@ -371,9 +371,9 @@ docker build -t ashutver/spring-demo:v3 .
 docker run -d \
   -p 8080:8080 \
   -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/studentsDB \
-  -e SPRING_DATASOURCE_USERNAME=ashutver \
+  -e SPRING_DATASOURCE_USERNAME=dbuser \
   -e SPRING_DATASOURCE_PASSWORD=postgres123 \
-  ashutver/spring-demo:v3
+  your-username/spring-demo:v3
 ```
 
 ### Docker Compose
