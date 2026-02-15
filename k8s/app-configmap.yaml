@@ -5,4 +5,4 @@ metadata:
   namespace: spring-demo
 data:
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studentsDB
-  SPRING_DATASOURCE_USERNAME: ashutver
+  SPRING_DATASOURCE_USERNAME: dbuser

@@ -256,6 +256,16 @@ Sample data is automatically loaded on startup (12 students).
 - **Kubernetes** - Container orchestration
 - **GitHub Actions** - CI/CD (coming soon)
 
+### Pipeline Results
+
+After successful run:
+- ✅ Tests executed and passed
+- ✅ Docker image built
+- ✅ Image pushed to Docker Hub with tags:
+  - `your-username/spring-demo:latest`
+  - `your-username/spring-demo:master`
+  - `your-username/spring-demo:master-<commit-sha>`
+
 ## 📁 Project Structure
 
 ```
@@ -421,21 +431,30 @@ kubectl delete -f k8s/
 
 ## 🔄 CI/CD with GitHub Actions
 
-### Planned Pipeline
+### Pipeline Overview
 
 1. **Build** - Compile and package application
 2. **Test** - Run unit and integration tests
 3. **Docker Build** - Create Docker image
 4. **Push to Registry** - Push to Docker Hub
-5. **Deploy** - Deploy to Kubernetes cluster
+5. **Deploy** - Deploy to Kubernetes cluster (optional)
 
 ### Setup Instructions
 
-1. Create GitHub repository
-2. Add secrets to repository:
-   - `DOCKER_USERNAME`
-   - `DOCKER_PASSWORD`
-3. Push code to trigger pipeline
+1. **Add GitHub Secrets** (Required for Docker push):
+   - `DOCKER_USERNAME` - Your Docker Hub username
+   - `DOCKER_PASSWORD` - Your Docker Hub access token
+   
+   📖 **Detailed Setup Guide:** See [GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md)
+
+2. **Trigger Pipeline:**
+   ```bash
+   git push origin master
+   ```
+
+3. **Monitor Pipeline:**
+   - Go to Actions tab in GitHub repository
+   - View build logs and results
 
 ## 📝 Best Practices Demonstrated
 

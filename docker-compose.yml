@@ -7,8 +7,8 @@ services:
     container_name: postgres-db
     environment:
       POSTGRES_DB: studentsDB          # Database name
-      POSTGRES_USER: ashutver          # Database user
-      POSTGRES_PASSWORD: postgres123   # Database password (change for production!)
+      POSTGRES_USER: ${DB_USER:-dbuser}          # Database user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}   # Database password (change for production!)
     ports:
       - "5432:5432"  # Map host port 5432 to container port 5432
     volumes:
@@ -16,14 +16,14 @@ services:
     networks:
       - spring-postgres-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ashutver -d studentsDB"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-dbuser} -d studentsDB"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   # Spring Boot Application Service
   spring-app:
-    image: ashutver/spring-demo:v3
+    image: ${DOCKER_USERNAME:-your-username}/spring-demo:${IMAGE_TAG:-latest}
     container_name: spring-boot-app
     depends_on:
       postgres:
@@ -31,8 +31,8 @@ services:
     environment:
       # Override application.properties with container-specific values
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studentsDB
-      SPRING_DATASOURCE_USERNAME: ashutver
-      SPRING_DATASOURCE_PASSWORD: postgres123
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-dbuser}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-changeme}
     ports:
       - "8080:8080"  # Map host port 8080 to container port 8080
     networks:
